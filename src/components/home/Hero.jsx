@@ -1,4 +1,4 @@
-import Videocard from "./Videocard"
+import Videocard from "../video/Videocard"
 
 function Hero() {
     return (
@@ -10,7 +10,7 @@ function Hero() {
             </nav>
 
             {/* video section */}
-            <div className="px-6 py-4 p grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="px-6 py-4 p grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((video, i) => {
                     return <Videocard key={i} />
                 })}
