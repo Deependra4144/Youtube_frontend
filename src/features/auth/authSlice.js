@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axiosInstance from '../../services/axiosInstance'
+import { registerInstance, loginInstance } from '../../services/axiosInstance'
 
 export const registerUser = createAsyncThunk('auth/registerUser', async (userData, thunkAPI) => {
     try {
         // for (let pair of userData.entries()) {
         //     console.log(pair[0] + ':', pair[1]);
         // }
-        const response = await axiosInstance.post('/register', userData);
+        const response = await registerInstance.post('/register', userData);
         console.log(response)
         return response.data;
     } catch (error) {
@@ -17,10 +17,11 @@ export const registerUser = createAsyncThunk('auth/registerUser', async (userDat
 
 export const loginUser = createAsyncThunk('auth/loginUser', async (credentials, thunkAPI) => {
     try {
-        const response = await axiosInstance.post('/login', credentials);
+        const response = await loginInstance.post('/login', credentials);
         return response.data;
     } catch (error) {
-        return thunkAPI.rejectWithValue(error.response.data.message || 'Login failed');
+        // console.log(error.response.data.message)
+        return thunkAPI.rejectWithValue(error.response.data.message);
     }
 })
 

@@ -1,10 +1,16 @@
 import axios from "axios";
 
-const instance = axios.create({
+const registerInstance = axios.create({
     baseURL: '/api/v1/users',
     headers: {
         "Content-Type": 'multipart/form-data'
     }
 })
+const loginInstance = axios.create({
+    baseURL: '/api/v1/users',
+    headers: {
+        "Content-Type": 'application/json'
+    }
+})
 
-export default instance
+export { registerInstance, loginInstance }

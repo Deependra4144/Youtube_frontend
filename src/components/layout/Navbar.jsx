@@ -3,8 +3,12 @@ import youtubeIcon from '.././../assets/youtube.png'
 import { IoMic, IoNotifications, IoPulse, IoSearch } from "react-icons/io5"
 import { BiUser } from "react-icons/bi"
 import Modal from "../common/Modal"
-function Navbar({ setSidebarToggel, setModalIsOpen }) {
-
+import { useState } from "react"
+import Register from "../../pages/Register"
+import Login from "../../pages/Login"
+function Navbar({ setSidebarToggel }) {
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [islogin, setIslogin] = useState(false)
     const openModal = () => {
         setModalIsOpen(prev => !prev)
     }
@@ -41,6 +45,9 @@ function Navbar({ setSidebarToggel, setModalIsOpen }) {
                 <IoNotifications fontSize={26} />
                 <BiUser fontSize={26} onClick={openModal} />
             </div>
+            <Modal modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen}>
+                {islogin ? <Login setIsLogin={setIslogin} setModalIsOpen={setModalIsOpen} /> : <Register setIsLogin={setIslogin} setModalIsOpen={setModalIsOpen} />}
+            </Modal>
         </div>
     )
 }
