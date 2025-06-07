@@ -3,7 +3,7 @@ import Videocard from "../video/Videocard"
 function Hero() {
     return (
         <div>
-            <nav className="sticky top-12 bg-white flex flex-nowrap gap-4 py-2 px-4">
+            <nav className="sticky top-12 bg-white z-10 flex flex-nowrap gap-4 py-2 px-4">
                 <button className="bg-gray-200 px-5 transition-all duration-200 border hover:scale-105 py-1 rounded-full">All</button>
                 <button className="hover:bg-gray-200 px-5 transition-all duration-200 border hover:scale-105 py-1 rounded-full">Music</button>
                 <button className="hover:bg-gray-200 px-5 transition-all duration-200 border hover:scale-105 py-1 rounded-full">Comedy</button>

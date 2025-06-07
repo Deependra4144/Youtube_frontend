@@ -2,7 +2,12 @@ import { IoMdMenu } from "react-icons/io"
 import youtubeIcon from '.././../assets/youtube.png'
 import { IoMic, IoNotifications, IoPulse, IoSearch } from "react-icons/io5"
 import { BiUser } from "react-icons/bi"
-function Navbar({ setSidebarToggel }) {
+import Modal from "../common/Modal"
+function Navbar({ setSidebarToggel, setModalIsOpen }) {
+
+    const openModal = () => {
+        setModalIsOpen(prev => !prev)
+    }
     return (
         <div className="sticky bg-white border-b z-20 top-0 grid grid-cols-3 px-1 md:px-4 py-1">
             <div className="flex items-center gap-6">
@@ -34,7 +39,7 @@ function Navbar({ setSidebarToggel }) {
                     </button>
                 </div>
                 <IoNotifications fontSize={26} />
-                <BiUser fontSize={26} />
+                <BiUser fontSize={26} onClick={openModal} />
             </div>
         </div>
     )

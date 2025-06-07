@@ -3,6 +3,7 @@ import Input from '../components/common/Input'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { registerUser } from '../features/auth/authSlice'
+import Modal from '../components/common/Modal'
 
 function Register() {
     const [avatarView, setAvatarView] = useState('https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png')
@@ -34,8 +35,15 @@ function Register() {
         // reset();
     }
 
+    const handleModal = () => {
+
+        <Modal>
+            <Login />
+        </Modal>
+
+    }
     return (
-        <div className='w-96 md:w-1/3 mx-auto shadow-md px-8 py-5 rounded-xl'>
+        <div className='w-96 bg-white md:w-1/3 mx-auto shadow-md px-8 py-5 rounded-xl'>
             <div className="">
                 <img style={{ width: '100px', height: '100px' }} className='shadow-md mx-auto rounded-full' src={avatarView} alt="" />
                 {errors.avatar?.message && <p className='text-red-500 text-sm text-center'>{errors.avatar?.message}</p>}
@@ -108,7 +116,7 @@ function Register() {
             </form>
             <div className='text-center my-3'>
                 <span className='text-gray-700'>All ready have a account</span>
-                <a href='/' className='text-blue-500 underline hover:text-blue-700'> Login</a>
+                <p onClick={handleModal} className='text-blue-500 underline hover:text-blue-700'> Login</p>
             </div>
         </div>
     )
