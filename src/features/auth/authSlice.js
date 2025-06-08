@@ -25,6 +25,24 @@ export const loginUser = createAsyncThunk('auth/loginUser', async (credentials, 
     }
 })
 
+export const loadUser = createAsyncThunk('auth/loadUser', async (_, thunkAPI) => {
+    try {
+        const token = localStorage.getItem('token')
+        if (!token) {
+            console.log("No token found")
+        }
+        const response = await loginInstance.get('/current-user', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        // console.log(response)
+        return response.data
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response?.data?.message || "Faild to load user")
+    }
+})
+
 const initialState = {
     user: null,
     loading: false,
@@ -64,11 +82,29 @@ const authSlice = createSlice({
             .addCase(loginUser.fulfilled, (state, actions) => {
                 state.loading = false;
                 state.user = actions.payload;
-                localStorage.setItem('token', actions.payload.token)
+                // console.log(actions.payload)
+                localStorage.setItem('token', actions.payload.data.accessToken)
             })
             .addCase(loginUser.rejected, (state, actions) => {
                 state.loading = false;
                 state.error = actions.payload
+            })
+
+            //load user
+            .addCase(loadUser.pending, (state) => {
+                state.loading = true;
+                state.error = null
+            })
+            .addCase(loadUser.fulfilled, (state, actions) => {
+                state.loading = false;
+                state.error = null;
+                state.user = actions.payload
+                console.log(state.user)
+            })
+            .addCase(loadUser.rejected, (state, actions) => {
+                state.loading = false;
+                state.error = actions.payload;
+                state.user = null
             })
     }
 })

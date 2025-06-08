@@ -1,14 +1,21 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Navbar from "./components/layout/Navbar"
 import Sidebar from "./components/layout/Sidebar"
 import Hero from "./components/home/Hero"
 import Register from "./pages/Register"
 import Modal from "./components/common/Modal"
+import { loadUser } from "./features/auth/authSlice"
+import { useDispatch } from "react-redux"
 
 function App() {
   const [sidebarToggel, setSidebarToggel] = useState(true)
+  const dispatch = useDispatch()
 
-  // console.log(sidebarToggel)
+  useEffect(() => {
+    dispatch(loadUser())
+  }, [])
+
+
   return (
     <div className="h-screen overflow-y-scroll">
 
