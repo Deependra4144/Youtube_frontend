@@ -1,30 +1,55 @@
-import { useEffect, useState } from "react"
-import Navbar from "./components/layout/Navbar"
-import Sidebar from "./components/layout/Sidebar"
 import Hero from "./components/home/Hero"
-import Register from "./pages/Register"
-import Modal from "./components/common/Modal"
-import { loadUser } from "./features/auth/authSlice"
-import { useDispatch } from "react-redux"
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import Layout from "./components/layout/Layout"
+import Likevideo from './pages/Likevideo'
+import History from './pages/History'
+import Mycontent from './pages/Mycontent'
+import Collection from './pages/Collection'
+import Subscriber from './pages/Subscriber'
+import Userdetail from './pages/Userdetail'
+
 
 function App() {
-  const [sidebarToggel, setSidebarToggel] = useState(true)
-  const dispatch = useDispatch()
+  const routers = createBrowserRouter([
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        {
+          path: '/',
+          element: <Hero />
+        },
+        {
+          path: '/liked-videos',
+          element: <Likevideo />
+        },
+        {
+          path: '/history',
+          element: <History />
+        },
+        {
+          path: '/my-content',
+          element: <Mycontent />
+        },
+        {
+          path: '/collection',
+          element: <Collection />
+        },
+        {
+          path: '/subscribers',
+          element: <Subscriber />
+        },
+        {
+          path: '/userdetail',
+          element: <Userdetail />
+        },
+      ]
 
-  useEffect(() => {
-    dispatch(loadUser())
-  }, [])
-
+    }
+  ])
 
   return (
-    <div className="h-screen overflow-y-scroll">
-
-      <Navbar setSidebarToggel={setSidebarToggel} />
-      <div className="flex">
-        <Sidebar sidebarToggel={sidebarToggel} />
-        <Hero />
-      </div>
-    </div>
+    <RouterProvider router={routers}></RouterProvider>
   )
 }
 

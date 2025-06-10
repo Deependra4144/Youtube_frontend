@@ -1,4 +1,4 @@
-import Videocard from "../video/Videocard"
+import Videocard from "../common/Videocard"
 
 function Hero() {
     return (

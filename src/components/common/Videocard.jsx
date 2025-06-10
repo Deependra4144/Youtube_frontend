@@ -1,5 +1,3 @@
-import React from 'react'
-
 function Videocard() {
     return (
         <div className="rounded-lg border shadow-md hover:scale-105 transition-all duration-300 overflow-hidden">
