@@ -10,7 +10,7 @@ function Register({ setIsLogin, setModalIsOpen }) {
     const [avatarView, setAvatarView] = useState('https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png')
     const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm()
 
-    const { loading, error, user } = useSelector(state => state.auth);
+    const { loading, error } = useSelector(state => state.auth);
     const dispatch = useDispatch()
 
 
@@ -34,7 +34,7 @@ function Register({ setIsLogin, setModalIsOpen }) {
 
         dispatch(registerUser(formData));
         setAvatarView('https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png');
-        // reset();
+        reset();
     }
 
 

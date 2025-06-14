@@ -1,12 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { registerInstance, loginInstance } from '../../services/axiosInstance'
+import { axiosInstance } from '../../services/axiosInstance'
 
 export const registerUser = createAsyncThunk('auth/registerUser', async (userData, thunkAPI) => {
     try {
         // for (let pair of userData.entries()) {
         //     console.log(pair[0] + ':', pair[1]);
         // }
-        const response = await registerInstance.post('/register', userData);
+        const response = await axiosInstance.post('/register', userData, {
+            headers: {
+                "Content-Type": 'multipart/form-data'
+            }
+        });
         console.log(response)
         return response.data;
     } catch (error) {
@@ -17,7 +21,11 @@ export const registerUser = createAsyncThunk('auth/registerUser', async (userDat
 
 export const loginUser = createAsyncThunk('auth/loginUser', async (credentials, thunkAPI) => {
     try {
-        const response = await loginInstance.post('/login', credentials);
+        const response = await axiosInstance.post('/login', credentials, {
+            headers: {
+                "Content-Type": 'application/json'
+            }
+        });
         return response.data;
     } catch (error) {
         // console.log(error.response.data.message)
@@ -31,7 +39,7 @@ export const loadUser = createAsyncThunk('auth/loadUser', async (_, thunkAPI) =>
         if (!token) {
             console.log("No token found")
         }
-        const response = await loginInstance.get('/current-user', {
+        const response = await axiosInstance.get('/current-user', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -40,6 +48,23 @@ export const loadUser = createAsyncThunk('auth/loadUser', async (_, thunkAPI) =>
         return response.data
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response?.data?.message || "Faild to load user")
+    }
+})
+
+export const updateAvatar = createAsyncThunk('auth/updateAvatar', async (newAvatar, thunkAPI) => {
+    try {
+        const formData = new FormData()
+        formData.append('avatar', newAvatar)
+
+        const response = await axiosInstance.patch('/avatar', formData, {
+            headers: {
+                'Authorization': `Bearer${localStorage.getItem('token')}`,
+            }
+        })
+        console.log(response)
+        return response.data
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data.message)
     }
 })
 
@@ -99,12 +124,28 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = null;
                 state.user = actions.payload
-                console.log(state.user)
+                // console.log(state.user)
             })
             .addCase(loadUser.rejected, (state, actions) => {
                 state.loading = false;
                 state.error = actions.payload;
                 state.user = null
+            })
+
+            //updateAvatar
+            .addCase(updateAvatar.pending, (state) => {
+                state.loading = true,
+                    state.error = null
+            })
+            .addCase(updateAvatar.fulfilled, (state, actions) => {
+                state.loading = false
+                state.error = null
+                console.log(actions.payload)
+            })
+            .addCase(updateAvatar.rejected, (state, actions) => {
+                state.loading = false
+                state.error = actions.payload
+                console.log(actions.payload)
             })
     }
 })

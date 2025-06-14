@@ -7,6 +7,9 @@ import Mycontent from './pages/Mycontent'
 import Collection from './pages/Collection'
 import Subscriber from './pages/Subscriber'
 import Userdetail from './pages/Userdetail'
+import { useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { loadUser } from "./features/auth/authSlice"
 
 
 function App() {
@@ -47,6 +50,12 @@ function App() {
 
     }
   ])
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(loadUser())
+  }, [])
 
   return (
     <RouterProvider router={routers}></RouterProvider>
